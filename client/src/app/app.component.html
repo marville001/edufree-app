@@ -1,7 +1,7 @@
-<div class="bg-indigo-900 h-24 w-48 p-6 rounded-lg flex justify-center items-center">
+<div class="bg-indigo-900 h-24 w-[500px] p-6 rounded-lg flex justify-center items-center">
   <h4>Works?</h4>
 
-  <p-dropdown [options]="cities" [(ngModel)]="selectedCity" optionLabel="name"></p-dropdown>
+  <p-dropdown class="!w-[400px]" [options]="cities" w [(ngModel)]="selectedCity" optionLabel="name" optionDisabled="inactive" ></p-dropdown>
 
 </div>
 <router-outlet></router-outlet>

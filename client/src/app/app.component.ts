@@ -15,6 +15,8 @@ export class AppComponent {
 
   selectedCity!: City;
 
+  filterValue = '';
+
   constructor() {
     this.cities = [
       { name: 'New York', code: 'NY' },
