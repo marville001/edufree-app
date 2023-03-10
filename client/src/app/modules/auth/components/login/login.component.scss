@@ -1,0 +1,17 @@
+.login-container {
+  display: flex;
+  width: 100wv;
+  height: 100vh;
+  .login-image {
+    background-image: url();
+  }
+  .login-form-container {
+    color: white;
+    p:first-child {
+      font-size: 50px;
+    }
+    p:second-child {
+      font-size: 14px;
+    }
+  }
+}
