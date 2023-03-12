@@ -3,7 +3,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import passport from "passport";
+// import passport from "passport";
 
 import authRoutes from "./routes/auth.routes"
 
@@ -17,7 +17,7 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(helmet());
-app.use(passport.initialize());
+// app.use(passport.initialize());
 app.use(morgan("dev"));
 
 mongoDbConnect();
