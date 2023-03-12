@@ -3,11 +3,13 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-import mongoose from "mongoose";
+import passport from "passport";
 
+import authRoutes from "./routes/auth.routes"
 
 import "./lib/passport";
 import Logger from "./utils/logger";
+import mongoDbConnect from "./utils/mongoDbConnect";
 
 const app = express();
 
@@ -15,19 +17,12 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(helmet());
+app.use(passport.initialize());
 app.use(morgan("dev"));
 
-// Connect to Mongodb
-mongoose.Promise = global.Promise;
-mongoose
-	.connect(config.DB_URL, { retryWrites: true, w: "majority" })
-	.then(() => {
-		Logger.info("DB Connection Successfull");
-	})
-	.catch((error) => {
-		Logger.error(`DB Connection Errored : ${error.message}`);
-		process.exit(error ? 1 : 0)
-	})
+mongoDbConnect();
+
+app.use("/api/auth", authRoutes);
 
 app.listen(config.PORT, () => {
 	Logger.info(`🔥 App running on PORT ${config.PORT} ==> http://localhost:${config.PORT}`);

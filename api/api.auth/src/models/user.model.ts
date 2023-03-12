@@ -2,48 +2,68 @@ import { model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 
-const userSchema = new Schema({
-	email: {
+const ThirdPartyProviderSchema = new Schema({
+	provider_name: {
 		type: String,
-		required: true,
-		unique: true,
-		trim: true,
-		lowercase: true,
+		default: null
 	},
-	name: {
+	provider_id: {
 		type: String,
-		required: true,
-		trim: true,
+		default: null
 	},
-	username: {
-		type: String,
-		required: true,
-		unique: true,
-		lowercase: true,
-		trim: true,
-	},
-	role: { type: String, default: "user" },
-	password: {
-		type: String,
-		required: true,
-		select: false,
-	},
-	avatar: {
-		type: String,
-		default:
-			"https://www.kindpng.com/picc/m/207-2074624_white-gray-circle-avatar-png-transparent-png.png",
-	},
-	status: { type: String, enum: ["active", "inactive"], default: "active" },
-	phone: String,
-	gender: String,
-	dob: Date,
-	passwordResetToken: String,
-	passwordResetExpires: Date,
-	isDeleted: { type: Boolean, default: false }
-
-}, {
-	timestamps: true
+	provider_data: {
+		type: {},
+		default: null
+	}
 })
+
+const userSchema = new Schema(
+	{
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+			trim: true,
+			lowercase: true,
+		},
+		name: {
+			type: String,
+			required: true,
+			trim: true,
+		},
+		username: {
+			type: String,
+			required: true,
+			unique: true,
+			lowercase: true,
+			trim: true,
+		},
+		role: { type: String, default: "user" },
+		password: {
+			type: String,
+			required: true,
+		},
+		avatar: {
+			type: String,
+			default:
+				"https://www.kindpng.com/picc/m/207-2074624_white-gray-circle-avatar-png-transparent-png.png",
+		},
+		status: { type: String, enum: ["active", "inactive"], default: "active" },
+		phone: String,
+		gender: String,
+		dob: Date,
+		passwordResetToken: String,
+		passwordResetExpires: Date,
+		isDeleted: { type: Boolean, default: false },
+		email_is_verified: { type: Boolean, default: false },
+		third_party_auth: [ThirdPartyProviderSchema]
+
+	},
+	{
+		timestamps: true,
+		strict: false
+	}
+)
 
 // Method for generating a reset token
 userSchema.methods.createPasswordResetToken = function () {
@@ -60,6 +80,8 @@ userSchema.methods.createPasswordResetToken = function () {
 //
 userSchema.methods.matchPassword = async function (password: string) {
 	try {
+		console.log(password, this.password);
+
 		return await bcrypt.compare(password, this.password);
 	} catch (error: any) {
 		throw new Error(error);

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, RequestHandler, Router } from "express";
 import passport from "passport";
 import {
 	loginController,
@@ -18,15 +18,18 @@ router.get("/me", passport.authenticate("jwt", { session: false }),
 	}
 )
 
+
 router.post("/login",
 	schemaValidator(loginSchema, "body"),
 	passport.authenticate('local-login', { session: false }),
-	loginController);
+	loginController
+);
 
 router.post("/signup",
 	schemaValidator(registerSchema, "body"),
 	passport.authenticate('local-signup', { session: false }),
-	registerController);
+	registerController
+);
 
 router.post("/update-password", schemaValidator(updatePasswordSchema, "body"), updatePasswordController);
 

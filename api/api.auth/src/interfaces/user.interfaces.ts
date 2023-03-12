@@ -14,3 +14,9 @@ export interface ILoginUserBody {
 	email_username: string;
 	password: string
 }
+export interface IRegisterUserBody {
+	email: string;
+	username: string;
+	name: string;
+	password: string
+}

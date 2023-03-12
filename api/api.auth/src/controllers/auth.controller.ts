@@ -1,38 +1,37 @@
 import { Request, Response } from "express";
-import { ILoginUserBody } from "../interfaces/user.interfaces";
+import { ILoginUserBody, IRegisterUserBody } from "../interfaces/user.interfaces";
+import User from "../models/user.model";
 import catchAsync from "../utils/catchAsync";
 import signToken from "../utils/signToken";
+import _ from "lodash"
 
 export const loginController = catchAsync(async (req: Request<{}, {}, ILoginUserBody>, res: Response) => {
 
 	const user = req.user as any;
 
-	console.log(user);
-
 	const token = await signToken({ _id: user?._id._id, role: user?.role });
 
 	res.status(200).json({
 		success: true,
 		message: `Login Successfull.`,
-		user: user,
+		user: _.pick(user, ["_id", "name", "email", "role", "avatar", "username", "status"]),
 		token,
 	});
 })
 
-export const registerController = catchAsync(async (req: Request<{}, {}, ILoginUserBody>, res: Response) => {
+export const registerController = catchAsync(async (req: Request<{}, {}, IRegisterUserBody>, res: Response) => {
 
-	const user = req.user as any;
+	const { email, password, username, name } = req.body;
 
-	console.log(user);
+	const user = await User.create({
+		email, password, username, name
+	});
 
-
-	const token = await signToken({ _id: user?._id._id, role: user?.role });
+	user.save({ validateBeforeSave: false });
 
 	res.status(200).json({
 		success: true,
-		message: `Login Successfull.`,
-		user: user,
-		token,
+		message: `User Signup Successfull.`,
 	});
 })
 
