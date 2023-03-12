@@ -11,15 +11,21 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: LoginComponent,
+        redirectTo: 'login',
+        pathMatch: 'full'
+      },
+      {
+        path: 'login',
+        component: LoginComponent
       },
       {
         path: 'register',
-        component: RegisterComponent,
-      },
-    ],
-  },
+        component: RegisterComponent
+      }
+    ]
+  }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

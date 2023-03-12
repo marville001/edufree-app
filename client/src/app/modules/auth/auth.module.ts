@@ -7,7 +7,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthComponent } from './auth.component';
 import { RouterModule } from '@angular/router';
-
+import {InputTextModule} from 'primeng/inputtext';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,8 @@ import { RouterModule } from '@angular/router';
     AuthRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    InputTextModule,
+    ToggleButtonModule,
     RouterModule
   ]
 })
