@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import bcrypt from "bcrypt";
 import crypto from "crypto";
 
 const userSchema = new Schema({
@@ -55,6 +56,32 @@ userSchema.methods.createPasswordResetToken = function () {
 	this.passwordResetExpires = Date.now() + 20 * 60 * 1000;
 	return resetToken;
 };
+
+//
+userSchema.methods.matchPassword = async function (password: string) {
+	try {
+		return await bcrypt.compare(password, this.password);
+	} catch (error: any) {
+		throw new Error(error);
+	}
+};
+
+userSchema.pre('save', async function (next) {
+	try {
+		// check method of registration
+		const user = this;
+		if (!user.isModified('password')) next();
+		// generate salt
+		const salt = await bcrypt.genSalt(10);
+		// hash the password
+		const hashedPassword = await bcrypt.hash(this.password, salt);
+		// replace plain text password with hashed password
+		this.password = hashedPassword;
+		next();
+	} catch (error: any) {
+		return next(error);
+	}
+});
 
 
 const User = model('User', userSchema)
