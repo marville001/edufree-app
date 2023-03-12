@@ -25,7 +25,7 @@ export const registerSchema = Joi.object().keys({
 	password: Joi.string().min(8).required(),
 })
 
-export const updatePasswordShema = Joi.object().keys({
+export const updatePasswordSchema = Joi.object().keys({
 	old_password: Joi.string().min(8).required(),
 	new_password: Joi.string().min(8).required(),
 	email: Joi.string().email().required(),
