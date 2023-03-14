@@ -1,7 +1,9 @@
 import passport from "passport";
 import passportJwt from "passport-jwt";
 import passportLocal from "passport-local"
+import { config } from "../config/config";
 import User from "../models/user.model";
+import _ from "lodash"
 
 const ExtractJwt = passportJwt.ExtractJwt;
 const StrategyJwt = passportJwt.Strategy;
@@ -69,23 +71,27 @@ passport.use(
 );
 
 passport.use(
+	'jwt',
 	new StrategyJwt(
 		{
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 			// jwtFromRequest: cookieExtractor,
-			secretOrKey: process.env.JWT_SECRET,
-			passReqToCallback: true,
-			ignoreExpiration: false
+			secretOrKey: config.JWT_SECRET,
+			// passReqToCallback: true,
+			// ignoreExpiration: false
 		},
 		async (jwtPayload: any, done: any) => {
+			console.log("dgjkdfjkghfjk");
+
 			try {
 				const user = await User.findById(jwtPayload?._id);
 				if (user) {
-					done(null, jwtPayload)
+					return done(null, _.pick(user, ["_id", "name", "email", "role", "avatar", "username", "status"]))
 				} else {
-					throw new Error("Invalid token payload")
+					return done("Hey", false, { message: "Heey there" })
 				}
 			} catch (error) {
+				console.log(error);
 				done(error, false)
 			}
 		}

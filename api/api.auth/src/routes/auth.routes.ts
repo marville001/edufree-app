@@ -12,7 +12,8 @@ import { loginSchema, registerSchema, updatePasswordSchema } from "../schemas/au
 
 const router = Router();
 
-router.get("/me", passport.authenticate("jwt", { session: false }),
+router.get("/me",
+	passport.authenticate("jwt", { session: false }),
 	(req, res) => {
 		res.json({ user: req.user });
 	}
