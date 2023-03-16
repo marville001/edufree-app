@@ -9,7 +9,7 @@ import { AuthComponent } from './auth.component';
 import { RouterModule } from '@angular/router';
 import {InputTextModule} from 'primeng/inputtext';
 import {ToggleButtonModule} from 'primeng/togglebutton';
-
+import {ButtonModule} from 'primeng/button';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -23,6 +23,7 @@ import {ToggleButtonModule} from 'primeng/togglebutton';
     FormsModule,
     InputTextModule,
     ToggleButtonModule,
+    ButtonModule,
     RouterModule
   ]
 })

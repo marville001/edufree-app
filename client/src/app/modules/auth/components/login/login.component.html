@@ -2,8 +2,9 @@
   <div
     class="bg-[url(https://images.pexels.com/photos/3228878/pexels-photo-3228878.jpeg)] bg-cover flex-1"
   >
-    <div class="bg-black h-full p-8 bg-opacity-50">
-      <h1 class="text-8xl text-center font-bold p-5">
+    <div class="bg-black h-full p-8 bg-opacity-50 flex flex-col
+    justify-center">
+      <h1 class=" text-6xl text-start font-bold p-5">
         Welcome Back to Edufree App
       </h1>
       <p class="text-2xl text-center font-light">
@@ -13,24 +14,24 @@
     </div>
   </div>
   <div class="flex-1 p-8 bg-[#1c1e53]">
-    <p class="text-start font-semibold text-xl p-4 py-8">Login</p>
+    <p class="text-start font-normal text-4xl p-4 py-8">Login</p>
     <p class="text-start p-4">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus,
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.<br>
+       Delectus,
       explicabo!
     </p>
     <div class="flex flex-col gap-2 w-2/3 gap-6">
-      <input type="text" pInputText placeholder="Your Name" />
       <input type="text" pInputText placeholder="Email" />
       <input type="password" pInputText placeholder="Pass****" />
     </div>
-    <div class="div">
-      <input type="checkbox" />
-      <p>Remember Me</p>
+    <div class="flex gap-2 p-2 align-center">
+      <input type="checkbox" class="w-5 h-4"/>
+      <p class="text-sm">Remember Me</p>
     </div>
 
-    <button>Login</button>
-    <p>
-      Don't have an account?<a href="#" routerLink="/auth/register/"
+    <button pButton class="bg-[#FCD980] w-2/3 m-3 text-center justify-center uppercase">Login</button>
+    <p class="text-sm">
+      Don't have an account?<a class="underline" href="#" routerLink="/auth/register/"
         >Register</a
       >
     </p>
