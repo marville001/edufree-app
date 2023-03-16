@@ -1,39 +1,98 @@
-import { Request } from "express";
 import passport from "passport";
 import passportJwt from "passport-jwt";
-
+import passportLocal from "passport-local"
+import { config } from "../config/config";
+import User from "../models/user.model";
+import _ from "lodash"
 
 const ExtractJwt = passportJwt.ExtractJwt;
 const StrategyJwt = passportJwt.Strategy;
+const LocalStrategy = passportLocal.Strategy;
 
-const cookieExtractor = function (req: Request) {
-	let token = null;
-	console.log(
-		"Extracting: ",
-		req.cookies["api-auth"],
-		req.signedCookies["api-auth"]
-	);
-	if (req && req.cookies) token = req.cookies["api-auth"];
-	// if (req && req.signedCookies && req.signedCookies.jwt) {
-	//   token = req.signedCookies["jwt"]["token"];
-	// }
-	return token;
-};
+passport.serializeUser((user: any, done) => {
+	done(null, user?.id);
+})
 
-console.log(process.env.JWT_SECRET);
+passport.deserializeUser((id: any, done) => {
+	User.findById(id, (err: any, user: any) => {
+		done(err, user);
+	})
+})
 
+passport.use(
+	"local-signup",
+	new LocalStrategy(
+		{
+			usernameField: "email",
+			passwordField: "password",
+		},
+		async (email: string, _password: string, done: any) => {
+			try {
+				// check if user exists
+				const userExists = await User.findOne({ "email": email });
+				if (userExists) {
+					return done(null, false)
+				}
+				return done(null, { email });
+			} catch (error) {
+				done(error);
+			}
+		}
+	)
+);
+
+passport.use(
+	"local-login",
+	new LocalStrategy(
+		{
+			usernameField: "email_username",
+			passwordField: "password",
+		},
+		async (email, password, done) => {
+			try {
+				const user = await User.findOne({
+					$or: [
+						{ email },
+						{ username: email },
+					]
+				});
+				if (!user) return done(null, false, { message: "Invalid credentials provided" });
+				const isMatch = await (user as any).matchPassword(password);
+				if (!isMatch)
+					return done(null, false, { message: "Invalid credentials provided" });
+				// if passwords match return user
+				return done(null, user);
+			} catch (error) {
+				console.log(error)
+				return done(error, false);
+			}
+		}
+	)
+);
 
 passport.use(
 	new StrategyJwt(
 		{
-			// jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			jwtFromRequest: cookieExtractor,
-			secretOrKey: process.env.JWT_SECRET,
-			passReqToCallback: true,
-			ignoreExpiration: false
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			// jwtFromRequest: cookieExtractor,
+			secretOrKey: config.JWT_SECRET,
+			// passReqToCallback: true,
+			// ignoreExpiration: false
 		},
-		async function (req: Request, jwtPayload: any, done: any) {
-			return ({ id: 4, name: "Martin Mwangi" })
+		async (jwtPayload: any, done: any) => {
+			console.log("dgjkdfjkghfjk");
+
+			try {
+				const user: any = await User.findById(jwtPayload?._id);
+				if (user) {
+					return done(null, _.pick(user, ["_id", "name", "email", "role", "avatar", "username", "status"]))
+				} else {
+					return done(null, false, { message: "Heey there" })
+				}
+			} catch (error) {
+				// console.log(error);
+				return done(error, false, { message: "Invalid" })
+			}
 		}
 	)
 );

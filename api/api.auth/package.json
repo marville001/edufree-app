@@ -1,39 +1,46 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/server.js",
-  "scripts": {
-    "dev": "tsnd --respawn --transpile-only src/server.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^5.1.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "helmet": "^6.0.1",
-    "joi": "^17.8.3",
-    "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.0.1",
-    "morgan": "^1.10.0",
-    "nanoid": "^4.0.1",
-    "passport": "^0.6.0",
-    "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^7.1.2",
-    "winston": "^3.8.2"
-  },
-  "devDependencies": {
-    "@types/cors": "^2.8.13",
-    "@types/express": "^4.17.17",
-    "@types/morgan": "^1.9.4",
-    "@types/node": "^18.14.6",
-    "@types/passport": "^1.0.12",
-    "@types/passport-jwt": "^3.0.8",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^4.9.5"
-  }
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/server.js",
+    "scripts": {
+        "test": "",
+        "start": "",
+        "build": "",
+        "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.1.0",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "helmet": "^6.0.1",
+        "joi": "^17.8.3",
+        "jsonwebtoken": "^9.0.0",
+        "lodash": "^4.17.21",
+        "mongoose": "^7.0.1",
+        "morgan": "^1.10.0",
+        "nanoid": "^4.0.1",
+        "passport": "^0.6.0",
+        "passport-jwt": "^4.0.1",
+        "passport-local": "^1.0.0",
+        "passport-local-mongoose": "^7.1.2",
+        "winston": "^3.8.2"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/cors": "^2.8.13",
+        "@types/express": "^4.17.17",
+        "@types/lodash": "^4.14.191",
+        "@types/morgan": "^1.9.4",
+        "@types/node": "^18.14.6",
+        "@types/passport": "^1.0.12",
+        "@types/passport-jwt": "^3.0.8",
+        "@types/passport-local": "^1.0.35",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^4.9.5"
+    }
 }

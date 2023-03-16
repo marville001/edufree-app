@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { navigationReducer } from './state/reducers/navigation.reducer';
 import { FormsModule } from '@angular/forms';
+import { CoreModule } from './modules/core/core.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     StoreModule.forRoot({ nav: navigationReducer }),
     DropdownModule,
-    FormsModule
+    FormsModule,
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
