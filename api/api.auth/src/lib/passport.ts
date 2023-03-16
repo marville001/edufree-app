@@ -71,7 +71,6 @@ passport.use(
 );
 
 passport.use(
-	'jwt',
 	new StrategyJwt(
 		{
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -84,15 +83,15 @@ passport.use(
 			console.log("dgjkdfjkghfjk");
 
 			try {
-				const user = await User.findById(jwtPayload?._id);
+				const user: any = await User.findById(jwtPayload?._id);
 				if (user) {
 					return done(null, _.pick(user, ["_id", "name", "email", "role", "avatar", "username", "status"]))
 				} else {
-					return done("Hey", false, { message: "Heey there" })
+					return done(null, false, { message: "Heey there" })
 				}
 			} catch (error) {
-				console.log(error);
-				done(error, false)
+				// console.log(error);
+				return done(error, false, { message: "Invalid" })
 			}
 		}
 	)

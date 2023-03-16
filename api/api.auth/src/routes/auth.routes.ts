@@ -7,18 +7,13 @@ import {
 	forgotPasswordController,
 	resetPasswordController,
 } from "../controllers/auth.controller";
+import jwtMiddleware from "../middlewares/jwt.middleware";
 import schemaValidator from "../middlewares/schemaValidar";
 import { loginSchema, registerSchema, updatePasswordSchema } from "../schemas/auth.schemas";
 
 const router = Router();
 
-router.get("/me",
-	passport.authenticate("jwt", { session: false }),
-	(req, res) => {
-		res.json({ user: req.user });
-	}
-)
-
+router.get("/me", jwtMiddleware, (req, res) => res.send(req.user))
 
 router.post("/login",
 	schemaValidator(loginSchema, "body"),
